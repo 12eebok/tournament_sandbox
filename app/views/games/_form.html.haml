@@ -1,0 +1,43 @@
+= simple_form_for(@game) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :name
+    = f.input :format, :as => "select", :collection => Game::FORMATS, :include_blank => "Choose Format", :required => true
+    #rounds{:style => "display:none;"}
+      = f.input :rounds, :input_html => {:min => 1}
+    = f.input :team_based
+    #team-based{:style => "display:none;"}
+      = f.input :min_entries, :input_html => {:min => Game::MIN_MIN_ENTRIES, :max => Game::MAX_MAX_ENTRIES, :value => 1}
+      = f.input :max_entries, :input_html => {:min => Game::MIN_MIN_ENTRIES, :max => Game::MAX_MAX_ENTRIES, :value => 1}
+    = f.input :required_fields, :hint => "Flag the fields required for score entry above (e.g., milliseconds elapsed for time-based competitions)" do
+      - Match.editable_field_names.each do |field|
+        = label_tag field, :class => "checkbox" do
+          = check_box_tag "required_fields[]", field, (@game.required_fields.nil? ? false : @game.required_fields.split(",").include?(field.to_s))
+          = field.to_s.titlecase
+  .form-actions
+    = f.button :submit
+:javascript
+  $(window).load(function(){
+    $('input#game_team_based').bind('change', function(){
+      $('#team-based').fadeToggle();
+    });
+    $('input#game_min_entries, input#game_max_entries').bind('change', function(){
+      //ensure that the maximum value is always >= minimum value
+      var min_val = parseInt($('input#game_min_entries').val());
+      if(min_val > parseInt($('input#game_max_entries').val()))
+      {
+        $('input#game_max_entries').val(min_val);
+      }
+    });
+    $('select#game_format').change(function() {
+      if($(this).val() == "Other")
+      {
+        $('#rounds').fadeToggle();
+      }
+      else
+      {
+         $('#rounds').hide();
+      }
+    });
+  });

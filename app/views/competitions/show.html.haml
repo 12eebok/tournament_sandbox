@@ -1,0 +1,27 @@
+%p#notice= notice
+
+%p
+  %b Starts at:
+  = @competition.starts_at
+%p
+  %b Ends at:
+  = @competition.ends_at
+%p
+  %b Name:
+  = @competition.name
+%p
+  %b Description:
+  = @competition.description
+%p
+  %b Tournament:
+  = @competition.tournament
+%p
+  %b Submission mask:
+  = @competition.submission_mask
+%p
+  %b Publish at:
+  = @competition.publish_at
+
+= link_to 'Edit', edit_competition_path(@competition)
+\|
+= link_to 'Back', competitions_path

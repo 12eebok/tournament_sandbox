@@ -11,7 +11,7 @@ describe User do
     }
   end
 
-  it "should create a new instance given a valid attribute" do
+  it "should create a new instance given valid attributes" do
     User.create!(@attr)
   end
 

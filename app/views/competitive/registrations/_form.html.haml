@@ -1,0 +1,14 @@
+= simple_form_for([:competitive, @registration]) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.association :competition
+    = f.input :registerable_id
+    = f.input :registerable_type
+    = f.input :entry_id
+    = f.input :place
+    = f.input :score
+    = f.input :disqualified
+    = f.input :disqualification_reason
+  .form-actions
+    = f.button :submit

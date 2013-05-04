@@ -12,4 +12,8 @@ module ApplicationHelper
     html.html_safe
   end
 
+  def admin
+    signed_in? && current_user.has_role?(:admin)
+  end
+
 end

@@ -1,0 +1,41 @@
+digraph 
+  {
+    label = "AI Sumo";
+    rankdir = LR;
+    labelloc="t";
+    node [ shape = box, colorscheme = pubu8, style = filled ];
+    edge [ arrowhead=none, arrowtail=none, style=bold ];
+    1174                 [ label = "Laila Morissette\nMarisa Boehm II",fillcolor = 1 ];
+    1182                 [ label = "Amely Parisian\nLaila Morissette",fillcolor = 2 ];
+    1175                 [ label = "Mariela Kling\nFatima Stiedemann",fillcolor = 1 ];
+    1183                 [ label = "Adrianna Lemke\nFatima Stiedemann",fillcolor = 2 ];
+    1176                 [ label = "Meggie Vandervort\nTalia Lynch",fillcolor = 2 ];
+    1187                 [ label = "Adrianna Lemke\nMeggie Vandervort",fillcolor = 3 ];
+    1177                 [ label = "Dante Eichmann\nDr. Orval Legros",fillcolor = 2 ];
+    1184                 [ label = "Foo User\nDante Eichmann",fillcolor = 3 ];
+    1178                 [ label = "Clint Rodriguez\nHarrison Bruen",fillcolor = 2 ];
+    1186                 [ label = "Harrison Bruen\nWallace Pouros",fillcolor = 3 ];
+    1179                 [ label = "Foo User\nKaela Langosh",fillcolor = 2 ];
+    1180                 [ label = "Eryn Wuckert\nFirst User",fillcolor = 2 ];
+    1185                 [ label = "Laila Morissette\nEryn Wuckert",fillcolor = 3 ];
+    1181                 [ label = "Wallace Pouros\nTimmy Flatley DDS",fillcolor = 2 ];
+    1188                 [ label = "Dante Eichmann\nLaila Morissette",fillcolor = 4 ];
+    1189                 [ label = "Wallace Pouros\nMeggie Vandervort",fillcolor = 4 ];
+    1190                 [ label = "Laila Morissette\nMeggie Vandervort",fillcolor = 5 ];
+    1174 -> 1182;
+    1175 -> 1183;
+    1176 -> 1187;
+    1177 -> 1184;
+    1178 -> 1186;
+    1179 -> 1184;
+    1180 -> 1185;
+    1181 -> 1186;
+    1182 -> 1185;
+    1183 -> 1187;
+    1184 -> 1188;
+    1185 -> 1188;
+    1186 -> 1189;
+    1187 -> 1189;
+    1188 -> 1190;
+    1189 -> 1190;
+  }

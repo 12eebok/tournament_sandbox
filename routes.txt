@@ -1,0 +1,69 @@
+                                         teams GET    /teams(.:format)                                          teams#index
+                                               POST   /teams(.:format)                                          teams#create
+                                      new_team GET    /teams/new(.:format)                                      teams#new
+                                     edit_team GET    /teams/:id/edit(.:format)                                 teams#edit
+                                          team GET    /teams/:id(.:format)                                      teams#show
+                                               PUT    /teams/:id(.:format)                                      teams#update
+                                               DELETE /teams/:id(.:format)                                      teams#destroy
+sample_registrations_competitive_registrations POST   /competitive/registrations/sample_registrations(.:format) competitive/registrations#sample_registrations
+                     competitive_registrations GET    /competitive/registrations(.:format)                      competitive/registrations#index
+                                               POST   /competitive/registrations(.:format)                      competitive/registrations#create
+                  new_competitive_registration GET    /competitive/registrations/new(.:format)                  competitive/registrations#new
+                 edit_competitive_registration GET    /competitive/registrations/:id/edit(.:format)             competitive/registrations#edit
+                      competitive_registration GET    /competitive/registrations/:id(.:format)                  competitive/registrations#show
+                                               PUT    /competitive/registrations/:id(.:format)                  competitive/registrations#update
+                                               DELETE /competitive/registrations/:id(.:format)                  competitive/registrations#destroy
+                                  competitions GET    /competitions(.:format)                                   competitions#index
+                                               POST   /competitions(.:format)                                   competitions#create
+                               new_competition GET    /competitions/new(.:format)                               competitions#new
+                              edit_competition GET    /competitions/:id/edit(.:format)                          competitions#edit
+                                   competition GET    /competitions/:id(.:format)                               competitions#show
+                                               PUT    /competitions/:id(.:format)                               competitions#update
+                                               DELETE /competitions/:id(.:format)                               competitions#destroy
+                                       matches GET    /matches(.:format)                                        matches#index
+                                               POST   /matches(.:format)                                        matches#create
+                                     new_match GET    /matches/new(.:format)                                    matches#new
+                                    edit_match GET    /matches/:id/edit(.:format)                               matches#edit
+                                         match GET    /matches/:id(.:format)                                    matches#show
+                                               PUT    /matches/:id(.:format)                                    matches#update
+                                               DELETE /matches/:id(.:format)                                    matches#destroy
+                                         games GET    /games(.:format)                                          games#index
+                                               POST   /games(.:format)                                          games#create
+                                      new_game GET    /games/new(.:format)                                      games#new
+                                     edit_game GET    /games/:id/edit(.:format)                                 games#edit
+                                          game GET    /games/:id(.:format)                                      games#show
+                                               PUT    /games/:id(.:format)                                      games#update
+                                               DELETE /games/:id(.:format)                                      games#destroy
+                    send_broadcast_tournaments POST   /tournaments/send_broadcast(.:format)                     tournaments#send_broadcast
+                           archive_tournaments GET    /tournaments/archive(.:format)                            tournaments#archive
+                          calendar_tournaments GET    /tournaments/calendar(.:format)                           tournaments#calendar
+                       leaderboard_tournaments GET    /tournaments/leaderboard(.:format)                        tournaments#leaderboard
+                                   tournaments GET    /tournaments(.:format)                                    tournaments#index
+                                               POST   /tournaments(.:format)                                    tournaments#create
+                                new_tournament GET    /tournaments/new(.:format)                                tournaments#new
+                               edit_tournament GET    /tournaments/:id/edit(.:format)                           tournaments#edit
+                                    tournament GET    /tournaments/:id(.:format)                                tournaments#show
+                                               PUT    /tournaments/:id(.:format)                                tournaments#update
+                                               DELETE /tournaments/:id(.:format)                                tournaments#destroy
+                                          root        /                                                         home#index
+                                          root        /                                                         home#index
+                              new_user_session GET    /users/sign_in(.:format)                                  devise/sessions#new
+                                  user_session POST   /users/sign_in(.:format)                                  devise/sessions#create
+                          destroy_user_session DELETE /users/sign_out(.:format)                                 devise/sessions#destroy
+                                 user_password POST   /users/password(.:format)                                 devise/passwords#create
+                             new_user_password GET    /users/password/new(.:format)                             devise/passwords#new
+                            edit_user_password GET    /users/password/edit(.:format)                            devise/passwords#edit
+                                               PUT    /users/password(.:format)                                 devise/passwords#update
+                      cancel_user_registration GET    /users/cancel(.:format)                                   devise/registrations#cancel
+                             user_registration POST   /users(.:format)                                          devise/registrations#create
+                         new_user_registration GET    /users/sign_up(.:format)                                  devise/registrations#new
+                        edit_user_registration GET    /users/edit(.:format)                                     devise/registrations#edit
+                                               PUT    /users(.:format)                                          devise/registrations#update
+                                               DELETE /users(.:format)                                          devise/registrations#destroy
+                                         users GET    /users(.:format)                                          users#index
+                                               POST   /users(.:format)                                          users#create
+                                      new_user GET    /users/new(.:format)                                      users#new
+                                     edit_user GET    /users/:id/edit(.:format)                                 users#edit
+                                          user GET    /users/:id(.:format)                                      users#show
+                                               PUT    /users/:id(.:format)                                      users#update
+                                               DELETE /users/:id(.:format)                                      users#destroy

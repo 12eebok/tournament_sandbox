@@ -1,0 +1,30 @@
+%p#notice= notice
+
+%p
+  %b Registerable:
+  = @registration.registerable_id
+%p
+  %b Registerable type:
+  = @registration.registerable_type
+%p
+  %b Entry:
+  = @registration.entry_id
+%p
+  %b Place:
+  = @registration.place
+%p
+  %b Score:
+  = @registration.score
+%p
+  %b Disqualified:
+  = @registration.disqualified
+%p
+  %b Disqualification reason:
+  = @registration.disqualification_reason
+%p
+  %b Competition:
+  = @registration.competition
+
+= link_to 'Edit', edit_competitive_registration_path(@registration)
+\|
+= link_to 'Back', competitive_registrations_path

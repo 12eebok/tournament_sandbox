@@ -1,0 +1,39 @@
+:javascript
+  $(window).load(function(){
+
+    function setVals()
+    {
+      var options = ['<option value="">Choose winner</option>'];
+      if($('#match_player_id').val() != "" & $('#match_opponent_id').val() != "")
+      {
+        options.push('<option value=' + $('#match_player_id').val() + '>' + $('#match_player_id').find(":selected").text() + '</option>');
+        options.push('<option value=' + $('#match_opponent_id').val() + '>' + $('#match_opponent_id').find(":selected").text() + '</option>');
+        $('#match_winner_id').empty().append(options).focus().prop('disabled', false);
+      }
+      else
+      {
+        $('#match_winner_id').empty().append(options).prop('disabled', true);
+      }
+    }
+    $('#match_player_id, #match_opponent_id').bind('change', function(){
+      setVals();
+    });
+    setVals();
+
+  })
+
+= simple_form_for(@match) do |f|
+  = f.error_notification
+
+  .form-inputs
+    %strong= f.error :base
+    = f.input :competition_id
+    = f.input :round
+    = f.input :milliseconds_elapsed
+    = f.association :player, :collection => @match.competition.remaining, :prompt => "Choose a player"
+    = f.association :opponent, :collection => @match.competition.remaining, :prompt => "Choose a opponent"
+    = f.association :winner, :collection => [], :prompt => "Choose winner", :disabled => true
+
+
+  .form-actions
+    = f.button :submit

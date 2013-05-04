@@ -1,0 +1,21 @@
+%p#notice= notice
+
+%p
+  %b Competition:
+  = @match.competition_id
+%p
+  %b Round:
+  = @match.round
+%p
+  %b Milliseconds elapsed:
+  = @match.milliseconds_elapsed
+%p
+  %b Player:
+  = @match.player_id
+%p
+  %b Opponent:
+  = @match.opponent_id
+
+= link_to 'Edit', edit_match_path(@match)
+\|
+= link_to 'Back', matches_path

@@ -9,5 +9,9 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :role_ids, :as => :admin
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me
-  
+
+  has_many :teams_owned, :class_name => "Team", :foreign_key => "leader_id"
+  has_many :registrations, :as => :registerable
+  has_and_belongs_to_many :teams
+
 end

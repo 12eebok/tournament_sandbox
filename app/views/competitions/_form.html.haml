@@ -1,0 +1,15 @@
+= simple_form_for(@competition) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :starts_at
+    = f.input :ends_at
+    = f.input :name
+    = f.input :description
+    = f.association :tournament
+    = f.association :game
+    = f.input :submission_mask
+    = f.input :publish_at
+
+  .form-actions
+    = f.button :submit

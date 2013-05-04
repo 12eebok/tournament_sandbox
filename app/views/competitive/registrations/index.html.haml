@@ -1,0 +1,41 @@
+%h1 Listing registrations
+
+%table.table.table-striped
+  %tr
+    %th Registerable
+    %th Registerable type
+    %th Entry
+    %th Place
+    %th Score
+    %th Disqualified
+    %th Disqualification reason
+    %th Competition
+    %th
+    %th
+    %th
+
+  - @registrations.each do |registration|
+    %tr
+      %td= registration.registerable_id
+      %td= registration.registerable_type
+      %td= registration.entry_id
+      %td= registration.place
+      %td= registration.score
+      %td= registration.disqualified
+      %td= registration.disqualification_reason
+      %td= registration.competition
+      %td= link_to 'Show', [:competitive, registration]
+      %td= link_to 'Edit', edit_competitive_registration_path(registration)
+      %td= link_to 'Destroy', [:competitive, registration], :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Registration', new_competitive_registration_path
+%hr
+= form_tag(sample_registrations_competitive_registrations_path, :class => "form form-inline") do |f|
+  %legend Assign some sample registrations for testing:
+  = select :sample_registrations, :competition_id,  options_from_collection_for_select(Competition.all, :id, :name), {:include_blank => "Select Competition"}
+  = text_field :sample_registrations, :registrations, :size => "1", :placeholder => "Number of registrants"
+  = submit_tag "Submit", :class => "btn btn-primary btn-small"
+
+

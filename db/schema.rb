@@ -11,7 +11,61 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130419190724) do
+ActiveRecord::Schema.define(:version => 20130430185030) do
+
+  create_table "competitions", :force => true do |t|
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.string   "name"
+    t.text     "description"
+    t.integer  "tournament_id"
+    t.integer  "submission_mask"
+    t.datetime "publish_at"
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+    t.integer  "game_id"
+    t.integer  "registrations_count", :default => 0
+  end
+
+  add_index "competitions", ["tournament_id"], :name => "index_competitions_on_tournament_id"
+
+  create_table "games", :force => true do |t|
+    t.string   "name"
+    t.string   "format"
+    t.string   "required_fields"
+    t.boolean  "team_based"
+    t.integer  "min_entries"
+    t.integer  "max_entries"
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+    t.integer  "rounds",          :default => 1
+  end
+
+  create_table "matches", :force => true do |t|
+    t.integer  "competition_id"
+    t.integer  "round",                :default => 0
+    t.integer  "milliseconds_elapsed", :default => 0
+    t.integer  "player_id"
+    t.integer  "opponent_id"
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
+    t.integer  "winner_id"
+  end
+
+  create_table "registrations", :force => true do |t|
+    t.integer  "registerable_id"
+    t.string   "registerable_type"
+    t.integer  "entry_id"
+    t.integer  "place"
+    t.integer  "score"
+    t.boolean  "disqualified"
+    t.text     "disqualification_reason"
+    t.integer  "competition_id"
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+  end
+
+  add_index "registrations", ["competition_id"], :name => "index_registrations_on_competition_id"
 
   create_table "roles", :force => true do |t|
     t.string   "name"
@@ -23,6 +77,30 @@ ActiveRecord::Schema.define(:version => 20130419190724) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], :name => "index_roles_on_name_and_resource_type_and_resource_id"
   add_index "roles", ["name"], :name => "index_roles_on_name"
+
+  create_table "teams", :force => true do |t|
+    t.string   "name"
+    t.integer  "leader_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "teams_users", :force => true do |t|
+    t.integer "team_id"
+    t.integer "user_id"
+  end
+
+  add_index "teams_users", ["team_id"], :name => "index_teams_users_on_team_id"
+  add_index "teams_users", ["user_id"], :name => "index_teams_users_on_user_id"
+
+  create_table "tournaments", :force => true do |t|
+    t.string   "name"
+    t.text     "instructions"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

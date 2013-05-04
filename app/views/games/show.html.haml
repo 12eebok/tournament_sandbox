@@ -1,0 +1,24 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @game.name
+%p
+  %b Format:
+  = @game.format
+%p
+  %b Required fields:
+  = @game.required_fields
+%p
+  %b Team based:
+  = @game.team_based
+%p
+  %b Min entries:
+  = @game.min_entries
+%p
+  %b Max entries:
+  = @game.max_entries
+
+= link_to 'Edit', edit_game_path(@game)
+\|
+= link_to 'Back', games_path
