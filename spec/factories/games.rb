@@ -16,7 +16,7 @@ FactoryGirl.define do
   end
 
   factory :knockout, :parent => :game do
-    format "Knockout"
+    format "Elimination"
   end
 
   factory :round_robin, :parent => :game do

@@ -2,7 +2,7 @@ class MatchesController < ApplicationController
   # GET /matches
   # GET /matches.json
   def index
-    @matches = Match.all
+    @competitions = Competition.all
 
     respond_to do |format|
       format.html # index.html.erb

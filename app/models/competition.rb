@@ -4,6 +4,7 @@ class Competition < ActiveRecord::Base
   include MatchGrapher
 
   has_many :matches
+  has_many :eliminations
   has_many :registrations
   belongs_to :tournament
   belongs_to :game
@@ -34,7 +35,11 @@ class Competition < ActiveRecord::Base
   end
 
   def graph_url
-    "/competitions/#{id}/graph.svg"
+    File.exist?("public" + "/competitions/#{id}/graph.svg") ? "/competitions/#{id}/graph.svg" : nil
+  end
+
+  def graph_fallback_url
+    File.exist?("public" + "/competitions/#{id}/graph.png") ? "/competitions/#{id}/graph.png" : nil
   end
 
   private

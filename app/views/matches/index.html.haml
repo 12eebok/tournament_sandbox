@@ -1,28 +1,8 @@
-%h1 Listing matches
-- @matches.group_by(&:competition_id).each do |competition, matches|
-  %table.table.table-striped
-    %thead
-      %tr
-        %th Competition
-        %th Round
-        %th Milliseconds elapsed
-        %th Player
-        %th Opponent
-        %th Winner
-        %th
-    %tbody
-      - matches.each do |match|
-        %tr
-          %td= match.competition_name
-          %td= match.round
-          %td= match.milliseconds_elapsed
-          %td= match.player_name
-          %td= match.opponent_name
-          %td= match.winner_name
-          - unless match.winner_id
-            %td= link_to 'Record', edit_match_path(match), :class => "btn btn-success btn-small"
-          - else
-            %td.muted Recorded
-    %hr
-    - unless matches.select{|match| match.winner_id == nil}.size > 0
-      %embed{:type=> "image/svg+xml", :src=> Competition.find(competition).graph_url}
+- @competitions.each do |competition|
+  - case competition.format
+    - when "Elimination"
+      = render :template => "eliminations/index", :locals => { :competition => competition }
+    - when "Round Robin"
+    - when "Other"
+
+

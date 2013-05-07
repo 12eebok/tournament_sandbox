@@ -4,7 +4,7 @@ class Game < ActiveRecord::Base
 
   attr_accessible :format, :max_entries, :min_entries, :name, :required_fields, :team_based, :rounds
 
-  FORMATS=["Knockout", "Round Robin", "Other"]
+  FORMATS=["Elimination", "Round Robin", "Other"]
 
   #lowest and highest entries ranges that can be definied
   MIN_MIN_ENTRIES = 1

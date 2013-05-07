@@ -13,6 +13,8 @@ sample_registrations_competitive_registrations POST   /competitive/registrations
                       competitive_registration GET    /competitive/registrations/:id(.:format)                  competitive/registrations#show
                                                PUT    /competitive/registrations/:id(.:format)                  competitive/registrations#update
                                                DELETE /competitive/registrations/:id(.:format)                  competitive/registrations#destroy
+                           results_competition GET    /competitions/:id/results(.:format)                       competitions#results
+                    generate_graph_competition POST   /competitions/:id/generate_graph(.:format)                competitions#generate_graph
                                   competitions GET    /competitions(.:format)                                   competitions#index
                                                POST   /competitions(.:format)                                   competitions#create
                                new_competition GET    /competitions/new(.:format)                               competitions#new
@@ -27,6 +29,13 @@ sample_registrations_competitive_registrations POST   /competitive/registrations
                                          match GET    /matches/:id(.:format)                                    matches#show
                                                PUT    /matches/:id(.:format)                                    matches#update
                                                DELETE /matches/:id(.:format)                                    matches#destroy
+                                  eliminations GET    /eliminations(.:format)                                   eliminations#index
+                                               POST   /eliminations(.:format)                                   eliminations#create
+                               new_elimination GET    /eliminations/new(.:format)                               eliminations#new
+                              edit_elimination GET    /eliminations/:id/edit(.:format)                          eliminations#edit
+                                   elimination GET    /eliminations/:id(.:format)                               eliminations#show
+                                               PUT    /eliminations/:id(.:format)                               eliminations#update
+                                               DELETE /eliminations/:id(.:format)                               eliminations#destroy
                                          games GET    /games(.:format)                                          games#index
                                                POST   /games(.:format)                                          games#create
                                       new_game GET    /games/new(.:format)                                      games#new
@@ -35,6 +44,7 @@ sample_registrations_competitive_registrations POST   /competitive/registrations
                                                PUT    /games/:id(.:format)                                      games#update
                                                DELETE /games/:id(.:format)                                      games#destroy
                     send_broadcast_tournaments POST   /tournaments/send_broadcast(.:format)                     tournaments#send_broadcast
+                           results_tournaments GET    /tournaments/results(.:format)                            tournaments#results
                            archive_tournaments GET    /tournaments/archive(.:format)                            tournaments#archive
                           calendar_tournaments GET    /tournaments/calendar(.:format)                           tournaments#calendar
                        leaderboard_tournaments GET    /tournaments/leaderboard(.:format)                        tournaments#leaderboard

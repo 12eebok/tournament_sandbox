@@ -8,24 +8,24 @@ class Competition
 		    #"Knockout", "Round Robin", "Other"
 		    clear_matches
 		    case format
-		      when "Knockout"
-		        rounds = knockout
+		      when "Elimination"
+		        rounds = elimination
+		        rounds.each do |round|
+		      		round.each do |match|
+		        		eliminations.build(match).save!
+		        	end
+	      		end
 		      when "Round Robin"
 		        rounds = round_robin
 		      else
 		        rounds = non_elimination
 		    end
-		    rounds.each do |round|
-	      	round.each do |match|
-	        	matches.build(match).save!
-	        end
-	      end
 			else
 				raise "Competition registration is still open - #{ApplicationController.helpers.distance_of_time_in_words(Time.now, ends_at)} to go."
 			end
 		end
 
-		def knockout
+		def elimination
 		  rounds = []
 		  registrants_pool = registration_ids
 		  # Byes need to be added if the registrations count is not devisible by two

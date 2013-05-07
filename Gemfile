@@ -6,6 +6,7 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
 end
+
 gem 'jquery-rails'
 gem "thin", ">= 1.5.0"
 gem "haml-rails", ">= 0.4"
@@ -36,4 +37,10 @@ gem "binding_of_caller", ">= 0.7.1", :group => :development, :platforms => [:mri
 gem "libv8", ">= 3.11.8"
 gem "therubyracer", ">= 0.11.3", :group => :assets, :platform => :ruby, :require => "v8"
 gem 'ffaker' #random data generation
+
 gem 'graph' #graphing
+gem "browser"
+
+group :assets do
+  gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails' #Advanced HTML tables
+end

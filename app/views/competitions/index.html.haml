@@ -12,6 +12,7 @@
     %th
     %th
     %th
+    %th
 
   - @competitions.each do |competition|
     %tr
@@ -22,6 +23,7 @@
       %td= competition.tournament
       %td= competition.submission_mask
       %td= competition.publish_at
+      %td= link_to 'Enter Results', results_competition_path(competition)
       %td= link_to 'Show', competition
       %td= link_to 'Edit', edit_competition_path(competition)
       %td= link_to 'Destroy', competition, :method => :delete, :data => { :confirm => 'Are you sure?' }

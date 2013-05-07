@@ -2,7 +2,6 @@ TournamentSandbox::Application.routes.draw do
 
   resources :teams
 
-
   namespace :competitive do
     resources :registrations do
       collection do
@@ -11,19 +10,23 @@ TournamentSandbox::Application.routes.draw do
     end
   end
 
-
-  resources :competitions
-
+  resources :competitions do
+    member do
+      get :results
+      get :generate_graph
+    end
+  end
 
   resources :matches
 
+  resources :eliminations
 
   resources :games
-
 
   resources :tournaments do
     collection do
       post :send_broadcast
+      get :results
       get :archive
       get :calendar
       get :leaderboard

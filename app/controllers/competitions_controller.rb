@@ -10,6 +10,23 @@ class CompetitionsController < ApplicationController
     end
   end
 
+  def generate_graph
+    competition = Competition.find(params[:id])
+    competition.generate_graph
+    respond_to do |format|
+      unless competition.graph_url.nil?
+        format.html { redirect_to :back, :notice => "Graph generated successfully." }
+      else
+        flash[:error] = "Graph generation failed - double-check your match data."
+        format.html { redirect_to :back }
+      end
+    end
+  end
+
+  def results
+    @competition = Competition.find(params[:id])
+  end
+
   # GET /competitions/1
   # GET /competitions/1.json
   def show

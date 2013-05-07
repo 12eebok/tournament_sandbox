@@ -1,0 +1,40 @@
+:javascript
+  $(window).load(function(){
+    $('.datatable').dataTable({
+      "sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
+      "bSort": false,
+      "bPaginate": false,
+      "bFilter": false,
+      "bInfo": false
+    });
+  });
+
+.page-header
+  %h1= competition.name
+%table.datatable.table.table-striped
+  %thead
+    %tr
+      %th Round
+      %th Player
+      %th Opponent
+      %th Winner
+      %th
+  %tbody
+    - competition.eliminations.each do |match|
+      %tr
+        %td
+          %strong= match.round
+        %td= match.player_name
+        %td= match.opponent_name
+        %td= match.winner_name
+        - unless match.winner_id
+          %td.span1= link_to "Record", edit_elimination_path(match), :class => "btn btn-success btn-small"
+        - else
+          %td.span1.muted Recorded
+%hr
+- if competition.graph_url
+  - if browser.ie6? || browser.ie7? || browser.ie8?
+    -# IE 8 < fallback
+    = image_tag(competition.graph_fallback_url)
+  - else
+    %embed{:type=> "image/svg+xml", :src=> competition.graph_url, :style => "width:1150px;height:700px;"}
