@@ -1,0 +1,6 @@
+- if competition.graph_url
+  - if browser.ie6? || browser.ie7? || browser.ie8?
+    -# IE 8 < fallback
+    = image_tag(competition.graph_fallback_url)
+  - else
+    %embed{:type=> "image/svg+xml", :src=> competition.graph_url, :style => "width:1150px;height:700px;"}

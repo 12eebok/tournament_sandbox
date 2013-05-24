@@ -44,3 +44,4 @@ gem "browser"
 group :assets do
   gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails' #Advanced HTML tables
 end
+gem "best_in_place"

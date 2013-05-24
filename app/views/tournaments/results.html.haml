@@ -1,0 +1,16 @@
+=stylesheet_link_tag "tournaments"
+=javascript_include_tag "tournaments"
+.page-header
+  %h1= "#{@tournament.name} Results"
+- unless @tournament.competitions.any?
+  %p.muted
+    There doesn't seem to be any competitions with results available at this time - please check back later.
+    -if signed_in? && !subscribed?("Tournament", @tournament.id)
+      %br
+      %br
+      You can
+      = link_to "subscribe", subscribe_subscriptions_path(:object => "Tournament", :id => @tournament.id, :user => current_user.id)
+      to the tournament mailing list to be notified of any future developments.
+
+- @tournament.competitions.each_with_index do |competition, index|
+  = render :template => "competitions/results", :locals => {:competition => competition}

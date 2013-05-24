@@ -1,40 +1,184 @@
-:javascript
-  $(window).load(function(){
-    $('.datatable').dataTable({
-      "sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
-      "bSort": false,
-      "bPaginate": false,
-      "bFilter": false,
-      "bInfo": false
-    });
-  });
+- unless competition.eliminations.any?
+  .centered
+    %p.lead
+      This is the initial setup screen for this competition. To get started, click on the
+      %strong Build Matches
+      button below to generate the required match brackets for this competition or click
+      %strong Cancel
+      to return to the previous screen.
+    .well{:style => "max-width: 400px;margin: 0px auto;"}
+      = link_to build_matches_competition_path(competition), :class => "btn btn-large btn-primary btn-block" do
+        Build Matches
+      = link_to :back, :class => "btn btn-large btn-block" do
+        Cancel
+- else
+  %p.lead Please enter match data for each of the rounds in the form below. Since this is an elimination-style competition please ensure that only the winner of a given match proceeds to the next round and that the loser is eliminated.
+  #tabsleft.tabbable.tabs-left
+    %ul.nav.nav-tabs
+      - 1.upto(competition.rounds) do |index|
+        %li.tab
+          %a{"data-toggle" => "tab", :href => "#tabsleft-tab#{index}"} Round #{index}
+    .progress.progress-info.progress-striped
+      .bar
+    .tab-content
+      - competition.eliminations.group_by(&:round).each do |index, round|
+        .tab-pane{:id => "tabsleft-tab#{index}"}
+          %table.datatable.table.table-striped
+            %thead
+              %tr
+                %th Round
+                %th Player
+                %th Opponent
+                %th Winner
+                %th
+            %tbody
+              - round.each do |match|
+                %tr
+                  %td
+                    %strong= match.round
+                  %td
+                    - if match.player_id.nil?
+                      = best_in_place match, :player_id, :type => :select, :collection => competition.remaining.map {|player| [player.id, player.name] }
+                    - else
+                      = match.player_name
+                  %td
+                    - if match.opponent_id.nil?
+                      = best_in_place match, :opponent_id, :type => :select, :collection => competition.remaining.map {|player| [player.id, player.name] }
+                    - else
+                      = match.opponent_name
+                  %td
+                    - if match.winner_id.nil?
+                      = best_in_place match, :winner_id, :type => :select, :collection => [[match.player_id, match.player_name],[match.opponent_id, match.opponent_name]]
+                    - else
+                      = match.winner_name
+                  %td.span1.status= match.winner_id ? "Recorded" : nil
 
-.page-header
-  %h1= competition.name
-%table.datatable.table.table-striped
-  %thead
-    %tr
-      %th Round
-      %th Player
-      %th Opponent
-      %th Winner
-      %th
-  %tbody
-    - competition.eliminations.each do |match|
-      %tr
-        %td
-          %strong= match.round
-        %td= match.player_name
-        %td= match.opponent_name
-        %td= match.winner_name
-        - unless match.winner_id
-          %td.span1= link_to "Record", edit_elimination_path(match), :class => "btn btn-success btn-small"
-        - else
-          %td.span1.muted Recorded
-%hr
-- if competition.graph_url
-  - if browser.ie6? || browser.ie7? || browser.ie8?
-    -# IE 8 < fallback
-    = image_tag(competition.graph_fallback_url)
-  - else
-    %embed{:type=> "image/svg+xml", :src=> competition.graph_url, :style => "width:1150px;height:700px;"}
+      %ul.pager.wizard
+        %li.previous
+          %a{:href => "javascript:;"} Previous
+        %li.reset
+          = link_to "Reset", build_matches_competition_path(competition), :class => "red", :confirm=>'Are you sure?'
+        %li.next
+          %a{:href => "javascript:;"} Next
+        %li.next.finish{:style => "display:none;"}
+          %a{:href => "javascript:;"} Finish
+
+
+  %hr
+  - if competition.graph_url
+    - if browser.ie6? || browser.ie7? || browser.ie8?
+      -# IE 8 < fallback
+      = image_tag(competition.graph_fallback_url)
+    - else
+      %embed{:type=> "image/svg+xml", :src=> competition.graph_url, :style => "width:1150px;height:700px;"}
+  :javascript
+    $(window).load(function()
+    {
+      var tabs = $('#tabsleft');
+      var next = tabs.find('.pager .next');
+      var previous = tabs.find('.pager .previous');
+      var finish = tabs.find('.pager .finish');
+      var bar = tabs.find('.bar');
+      $('.best_in_place').bind("ajax:success", function () {
+        var field = $(this);
+        var row = field.closest('tr');
+        row.effect('highlight');
+        var attributes = field.attributes;
+        var i = attributes.length;
+        while( i-- )
+        {
+          field.removeAttributeNode(attributes[i]);
+        }
+        row.find('.status').text('Recorded');
+        checkTabProgress();
+       });
+
+      $('#tabsleft').bootstrapWizard({'tabClass': 'nav nav-tabs', 'debug': false,
+        onShow: function(tab, navigation, index)
+        {
+
+          checkTabProgress();
+
+        },
+
+        onNext: function(tab, navigation, index)
+        {
+          console.log('onNext');
+        },
+
+        onPrevious: function(tab, navigation, index)
+        {
+          console.log('onPrevious');
+        },
+
+        onTabClick: function(tab, navigation, index)
+        {
+          console.log('onTabClick');
+        },
+
+        onTabShow: function(tab, navigation, index)
+        {
+          console.log('onTabShow');
+          var $total = navigation.find('li').length;
+          var $current = index+1;
+          var $percent = ($current/$total) * 100;
+          bar.css({width:$percent+'%'});
+          // If it's the last tab then hide the last button and show the finish instead
+          if($current >= $total)
+          {
+            next.hide();
+            finish.show().removeClass('disabled');
+          }
+          else
+          {
+            next.show();
+            finish.hide();
+          }
+          checkTabProgress();
+          if($(tabs.find('li')[index]).next().hasClass('disabled'))
+          {
+            next.addClass('disabled');
+          }
+          else
+          {
+            next.removeClass('disabled');
+          }
+        }
+
+      });
+
+      function checkTabProgress()
+      {
+        tabs.find('li.tab').each(function(index)
+        {
+          var breakFlag = false;
+          var tab = $(this);
+          var tabPane = $(tab.find("a").attr('href'));
+          tabPane.find('tbody tr').each(function(rowindex)
+          {
+            var row = $(this);
+            console.log(row.find('.status').text());
+            if(row.find('.status').text() != "Recorded")
+            {
+              breakFlag = true;
+              return false;
+            }
+
+          })
+          // disable all subsequent tabs if current tab is disabled;
+          // otherise enable all subsequent tabs if they aren't already.
+          if(breakFlag)
+          {
+            console.log("disabling at index: " + index)
+            tab.nextAll().addClass("disabled");
+            return false;
+          }
+          else
+          {
+            tab.nextAll().addClass("enabled");
+          }
+        });
+
+      }
+
+    });

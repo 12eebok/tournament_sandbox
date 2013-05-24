@@ -1,0 +1,14 @@
+$("#new_competition label").each (function(){
+$(this).removeClass("error");
+$('.error').remove();
+});
+- @competition.errors.each do |attribute, errors_array|
+	var input = $("#competition_#{attribute.to_s}");
+	var label = $("label[for='"+$(input).attr('id')+"']");
+	label.addClass("error");
+	$("<span class='error'>#{errors_array.to_s}</span>").insertAfter(input);
+	input.focus().attr("required", true);
+
+
+
+

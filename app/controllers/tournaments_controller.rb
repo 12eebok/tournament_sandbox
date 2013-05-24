@@ -21,6 +21,10 @@ class TournamentsController < ApplicationController
     end
   end
 
+  def results
+    @tournament = Tournament.find(params[:id], :include => [:competitions])
+  end
+
   # GET /tournaments/new
   # GET /tournaments/new.json
   def new

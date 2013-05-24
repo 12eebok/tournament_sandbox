@@ -11,10 +11,15 @@ class Competition < ActiveRecord::Base
 
   attr_accessible :description, :ends_at, :name, :publish_at, :starts_at, :submission_mask, :tournament_id, :game_id, :registrations_count
 
-  validates :game_id, :presence => true
-  validate :end_time_less_than_tournament_end_time, :start_time_greater_than_tournament_start_time
+  validates :game_id, :ends_at, :starts_at, :presence => true
+  validate :end_time_less_than_tournament_end_time, :if => :ends_at
+  validate :start_time_greater_than_tournament_start_time, :if => :starts_at?
 
   delegate :team_based, :format, :to => :game
+
+  def ended?
+    ends_at < Time.now
+  end
 
   def teams
 	  Team.where(:id => registrations.where(:registerable_type => Team.name).map(&:registerable_id))
@@ -40,6 +45,14 @@ class Competition < ActiveRecord::Base
 
   def graph_fallback_url
     File.exist?("public" + "/competitions/#{id}/graph.png") ? "/competitions/#{id}/graph.png" : nil
+  end
+
+  def check_registered(user)
+    registrations.where(:registerable_id => user.id, :registerable_type => user.class).any?
+  end
+
+  def rounds
+    matches.group(:round).length
   end
 
   private

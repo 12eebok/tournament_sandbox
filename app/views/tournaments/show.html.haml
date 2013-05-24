@@ -1,18 +1,71 @@
-%p#notice= notice
+=stylesheet_link_tag "tournaments", "datepicker"
+- if params[:tab]
+  :javascript
+    $(window).load(function(){
+      $('ul.nav a[href="##{params[:tab]}"]').tab('show');
+    })
 
-%p
-  %b Name:
-  = @tournament.name
-%p
-  %b Instructions:
-  = @tournament.instructions
-%p
-  %b Starts at:
-  = @tournament.starts_at
-%p
-  %b Ends at:
-  = @tournament.ends_at
+.page-header
+  %h1 Tournament - #{@tournament.name}
+.tabbable
+  %ul.nav.nav-tabs
+    %li.active
+      %a{"data-toggle" => "tab", :href => "#tab1"} Information
+    %li.dropdown
+      %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+        Competitions
+        %b.caret
+      %ul.dropdown-menu
+        - @tournament.competitions.each do |competition|
+          %li
+            %a{"data-toggle" => "tab", :href => "#competition#{competition.id}"}= competition.name
+    %li{:class => (@tournament.ends_at > Time.now ? "disabled" : nil), :rel => "tooltip", :name => ("Empty until #{@tournament.ends_at.strftime('%A, %d %B %Y')}" if @tournament.ends_at > Time.now)}= link_to "Scoreboard", results_tournament_path(@tournament)
+    - if can?(:manage, @tournament)
+      %li
+        %a{"data-toggle" => "tab", :href => "#tab3"} Manage
+  .tab-content
+    #tab1.tab-pane.active
+      .hero-unit{:style => "padding-top:12px !important;"}
+        %h2= 'Dates <i class="icon-calendar"></i>'.html_safe
+        - if @tournament.ends_at < Time.now
+          %p= "Regisration ended on #{emph(cool_date(@tournament.ends_at))}".html_safe
+        -else
+          %p= "Registration begins #{emph(cool_date(@tournament.starts_at))} and ends on #{emph(cool_date(@tournament.ends_at))}".html_safe
+        .well
+          %p= @tournament.instructions.html_safe
+        %hr
+        .well
+          %h2
+            %i.icon-list-ol
+            Registration Details
+          %h3 Step 1: Registration
+          %ol
+            %li First, read the details provided for the various competitions listed in the competitions tab above. Each competition will highlight the nature of the competition and any submission requirements.
+            %li Next, register for any number of competitions by pressing the register button on the corresponding competition tab.
+            %li
+              After choosing the register option you will be prompted to provide a submission depending on the format/rules of the competition. Please note that you can proceed to register without providing a submission. A submission may be added or changed at any time before the registration deadline. If you fail to provide a submission before the registration deadline or your submission doesn't meet the specified competition requirements you will be disqualified.
+            %strong
+              When uploading your submission file to the Virtual Model Catalogue, ensure that you check off the private checkbox or else anybody can access and download your entry, e.g.:
+              %br
+              = image_tag "private_upload.png"
+          %h3 Step 2: Track your results
+          %ol
+            %li
+              You can track your individual competition standing and tournaments results by visiting the
+              = link_to 'scoreboard', results_tournament_path(@tournament)
+            %li You will be contacted through the website and by email once the results have been posted.
+    - @tournament.competitions.each do |competition|
+      %div.tab-pane{:id => "competition#{competition.id}"}
+        = render :template => "competitions/show", :locals => {:competition => competition}
+    - if can?(:manage, @tournament)
+      #tab3.tab-pane
+        %h3 Tournament Settings
+        %ul.nav.nav-pills.nav-bold
+          %li= link_to "Broadcast<i class='icon-bullhorn icon-large'></i>".html_safe, {}
+          %li= link_to "Edit Tournament<i class='icon-pencil icon-large'></i>".html_safe, {}
+          %li= link_to "Remove Tournament<i class='icon-remove-circle icon-large'></i>".html_safe, @tournament, confirm: 'Are you sure? This action cannot be undone', method: :delete, :class => "text-error"
+        %hr
+        %h3 Add Competiton
+        = render :template => "competitions/new", :locals => {:competition => @tournament.competitions.build}
 
-= link_to 'Edit', edit_tournament_path(@tournament)
-\|
-= link_to 'Back', tournaments_path
+

@@ -27,6 +27,18 @@ class CompetitionsController < ApplicationController
     @competition = Competition.find(params[:id])
   end
 
+  def entry
+    @competition = Competition.find(params[:id])
+  end
+
+  def build_matches
+    competition = Competition.find(params[:id])
+    competition.build_matches
+    respond_to do |format|
+      format.html {redirect_to entry_competition_path(competition), :notice => "Successfully built matches."}
+    end
+  end
+
   # GET /competitions/1
   # GET /competitions/1.json
   def show
@@ -57,15 +69,11 @@ class CompetitionsController < ApplicationController
   # POST /competitions
   # POST /competitions.json
   def create
+    logger.debug(params)
     @competition = Competition.new(params[:competition])
-
     respond_to do |format|
-      if @competition.save
-        format.html { redirect_to @competition, notice: 'Competition was successfully created.' }
-        format.json { render json: @competition, status: :created, location: @competition }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @competition.errors, status: :unprocessable_entity }
+      unless @competition.save
+        format.js
       end
     end
   end

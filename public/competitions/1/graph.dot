@@ -5,7 +5,5 @@ digraph
     labelloc="t";
     node [ shape = box, colorscheme = pubu8, style = filled ];
     edge [ arrowhead=none, arrowtail=none, style=bold ];
-    1                    [ label = "Laron Harris DVM\nBrandy King",fillcolor = 1 ];
-    2                    [ label = "Ramona McClure\nEthel Fahey",fillcolor = 1 ];
-    3                    [ label = "----\n----",fillcolor = 2 ];
+    1                    [ label = "Kendra Stoltenberg\nEphraim Klein",fillcolor = 1 ];
   }

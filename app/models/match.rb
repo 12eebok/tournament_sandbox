@@ -21,7 +21,6 @@ class Match < ActiveRecord::Base
     competition.generate_graph
   end
 
-
   def opponent_different_from_player
     errors.add(:opponent, "must be the different from the first contestant") if opponent_id == player_id
   end

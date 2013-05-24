@@ -1,5 +1,12 @@
-%h1 New competition
-
-= render 'form'
-
-= link_to 'Back', competitions_path
+= simple_form_for(competition, :remote => true) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :starts_at, :as => "string", :input_html => {:class => "date-picker"}
+    = f.input :ends_at, :as => "string", :input_html => {:class => "date-picker"}
+    = f.input :name
+    = f.input :description
+    = f.association :tournament, :include_blank => false
+    = f.association :game, :include_blank => false
+    = f.input :submission_mask
+  .form-actions
+    = f.button :submit

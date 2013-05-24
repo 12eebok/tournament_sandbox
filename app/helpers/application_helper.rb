@@ -16,4 +16,12 @@ module ApplicationHelper
     signed_in? && current_user.has_role?(:admin)
   end
 
+  def cool_date(date)
+    date.strftime('%A, %B %d at %l:%M%p')
+  end
+
+  def emph(text)
+    "<span style=\"font-weight:bold;\">#{text}</span>"
+  end
+
 end

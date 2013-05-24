@@ -14,6 +14,8 @@ TournamentSandbox::Application.routes.draw do
     member do
       get :results
       get :generate_graph
+      get :entry
+      get :build_matches
     end
   end
 
@@ -24,6 +26,9 @@ TournamentSandbox::Application.routes.draw do
   resources :games
 
   resources :tournaments do
+    member do
+      get :results
+    end
     collection do
       post :send_broadcast
       get :results
