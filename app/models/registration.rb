@@ -26,7 +26,7 @@ class Registration < ActiveRecord::Base
   delegate :name, :to => :registerable
 
   #withdrawal is performed in place of a delete request
-  before_destroy :withdraw
+  # before_destroy :withdraw
 
   def assign_to(entity)
     update_attributes!(:registerable_id => entity.id, :registerable_type => entity.class.name)

@@ -47,8 +47,8 @@ class Competition < ActiveRecord::Base
     File.exist?("public" + "/competitions/#{id}/graph.png") ? "/competitions/#{id}/graph.png" : nil
   end
 
-  def check_registered(user)
-    registrations.where(:registerable_id => user.id, :registerable_type => user.class).any?
+  def registered?(user)
+     !user.nil? && registrations.where(:registerable_id => user.id, :registerable_type => user.class).any?
   end
 
   def rounds

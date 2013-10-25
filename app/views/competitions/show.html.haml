@@ -1,24 +1,25 @@
 .page-header
   %h2
     = competition.name
-    - if signed_in? && competition.check_registered(current_user)
+    - if signed_in? && competition.registered?(current_user)
       %small.registered REGISTERED
 %h4 Registration period
 %p= "#{cool_date(competition.starts_at)} - #{cool_date(competition.ends_at)}"
 %p= competition.description.html_safe
-.action-menu.form-actions
-  - if competition.check_registered(current_user)
-    = link_to competition, :disabled => (competition.ended? || competition.tournament.ended? ? true : false), :class => "btn btn-large" do
-      Submission
-    = link_to @registration, :method => :delete, :disabled => (competition.ended? || competition.tournament.ended? ? true : false), :class => "btn btn-large" do
-      Withdraw
-  - else
-    = link_to competition, :disabled => (competition.ended? || competition.tournament.ended? ? true : false), :class => "btn btn-large" do
-      Register
-  - if can?(:manage, @tournament)
-    = link_to entry_competition_path(competition), :class => "btn btn-large" do
-      Matches
-    = link_to competition, :class => "btn btn-large" do
-      Setup
-    = link_to competition,:confirm => 'Are you sure?', :method => :delete, :class => "btn btn-large" do
-      Remove
+- if can? :register, competition
+  .action-menu.form-actions
+    - if competition.registered?(current_user)
+      = link_to competition, :disabled => (competition.ended? || competition.tournament.ended? ? true : false), :class => "btn btn-large" do
+        Submission
+      = link_to @registration, :method => :delete, :disabled => (competition.ended? || competition.tournament.ended? ? true : false), :class => "btn btn-large" do
+        Withdraw
+    - else
+      = link_to competition, :disabled => (competition.ended? || competition.tournament.ended? ? true : false), :class => "btn btn-large" do
+        Register
+    - if can?(:manage, @tournament)
+      = link_to entry_competition_path(competition), :class => "btn btn-large" do
+        Matches
+      = link_to competition, :class => "btn btn-large" do
+        Setup
+      = link_to competition,:confirm => 'Are you sure?', :method => :delete, :class => "btn btn-large" do
+        Remove
