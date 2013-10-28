@@ -62,8 +62,6 @@
           %a{:href => "javascript:;"} Next
         %li.next.finish{:style => "display:none;"}
           %a{:href => "javascript:;"} Finish
-
-
   %hr
   - if competition.graph_url
     - if browser.ie6? || browser.ie7? || browser.ie8?
@@ -79,43 +77,33 @@
       var previous = tabs.find('.pager .previous');
       var finish = tabs.find('.pager .finish');
       var bar = tabs.find('.bar');
+      // Check tab progress and highlight the row if winner field is set
+      // or else, populate the winner field with data
       $('.best_in_place').bind("ajax:success", function () {
         var field = $(this);
-        var row = field.closest('tr');
-        row.effect('highlight');
-        var attributes = field.attributes;
-        var i = attributes.length;
-        while( i-- )
-        {
-          field.removeAttributeNode(attributes[i]);
+        if (field.data("attribute") == "winner_id") {
+          var row = field.closest('tr');
+          row.effect('highlight');
+          var attributes = field[0].attributes;
+          var i = attributes.length;
+          while( i-- )
+          {
+            field[0].removeAttribute(attributes[i]);
+          }
+          row.find('.status').text('Recorded');
+          checkTabProgress();
         }
-        row.find('.status').text('Recorded');
-        checkTabProgress();
+        else
+        {
+
+        }
        });
 
       $('#tabsleft').bootstrapWizard({'tabClass': 'nav nav-tabs', 'debug': false,
         onShow: function(tab, navigation, index)
         {
-
           checkTabProgress();
-
         },
-
-        onNext: function(tab, navigation, index)
-        {
-          console.log('onNext');
-        },
-
-        onPrevious: function(tab, navigation, index)
-        {
-          console.log('onPrevious');
-        },
-
-        onTabClick: function(tab, navigation, index)
-        {
-          console.log('onTabClick');
-        },
-
         onTabShow: function(tab, navigation, index)
         {
           console.log('onTabShow');
